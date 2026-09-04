@@ -86,6 +86,13 @@ variable "parameters" {
 }
 
 
+variable "parameter_group_family" {
+  description = "Redshift parameter group family to use when parameters are provided."
+  type        = string
+  default     = "redshift-1.0"
+}
+
+
 variable "tags" {
   type    = map(string)
   default = {}

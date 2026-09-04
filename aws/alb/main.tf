@@ -1,5 +1,5 @@
 resource "aws_lb" "this" {
-  name                       = var.name
+  name                       = substr(var.name, 0, 32)
   internal                   = var.internal
   load_balancer_type         = var.load_balancer_type
   security_groups            = var.security_group_ids
@@ -26,7 +26,7 @@ resource "aws_lb" "this" {
 
 resource "aws_lb_target_group" "this" {
   for_each    = var.target_groups
-  name        = "${var.name}-${each.key}"
+  name        = substr("${var.name}-${each.key}", 0, 32)
   port        = each.value.port
   protocol    = each.value.protocol
   vpc_id      = each.value.vpc_id

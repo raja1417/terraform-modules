@@ -9,7 +9,7 @@ resource "aws_redshift_subnet_group" "this" {
 resource "aws_redshift_parameter_group" "this" {
   count  = length(var.parameters) > 0 ? 1 : 0
   name   = "${var.name}-params"
-  family = "redshift-1.0"
+  family = var.parameter_group_family
 
   dynamic "parameter" {
     for_each = var.parameters
