@@ -105,7 +105,7 @@ resource "aws_route_table" "private" {
 
     content {
       cidr_block     = "0.0.0.0/0"
-      nat_gateway_id = var.single_nat_gateway ? values(aws_nat_gateway.this)[0].id : try(aws_nat_gateway.this[each.key].id, values(aws_nat_gateway.this)[0].id)
+      nat_gateway_id = aws_nat_gateway.this[var.single_nat_gateway ? local.nat_subnets[0] : lookup(var.private_subnet_nat_gateway_keys, each.key, local.nat_subnets[0])].id
     }
   }
 
