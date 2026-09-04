@@ -16,8 +16,12 @@ resource "aws_lambda_function" "this" {
   publish                        = var.publish
   tags                           = local.common_tags
 
-  environment {
-    variables = var.environment_variables
+  dynamic "environment" {
+    for_each = length(nonsensitive(var.environment_variables)) == 0 ? [] : [true]
+
+    content {
+      variables = var.environment_variables
+    }
   }
 
 

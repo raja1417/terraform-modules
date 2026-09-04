@@ -24,4 +24,6 @@ module "web_sg" {
 
 ## Notes
 
+The default egress rule allows all outbound IPv4 traffic, matching AWS security group behavior commonly used for workloads that need package repositories or managed service endpoints. Override `egress_rules` with a narrower list, or `[]`, for stricter egress control.
+
 Keep backend configuration, provider aliases, environment values, and application-specific wrappers in the consuming application repository. Reference this module using `//aws/security-group` with a pinned tag or commit SHA.

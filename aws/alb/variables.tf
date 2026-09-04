@@ -1,5 +1,10 @@
 variable "name" {
   type = string
+
+  validation {
+    condition     = length(var.name) <= 32
+    error_message = "ALB name must be 32 characters or fewer."
+  }
 }
 
 
