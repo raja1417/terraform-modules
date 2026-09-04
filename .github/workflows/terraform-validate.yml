@@ -1,0 +1,46 @@
+name: Terraform Validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - aws/alb
+          - aws/dynamodb
+          - aws/ec2
+          - aws/eks
+          - aws/emr
+          - aws/glue
+          - aws/lambda
+          - aws/rds
+          - aws/redshift
+          - aws/s3
+          - aws/security-group
+          - aws/vpc
+          - azure/aks
+          - azure/app-service
+          - azure/blob-storage
+          - azure/cosmosdb
+          - azure/databricks
+          - azure/sql-db
+          - azure/synapse
+          - azure/vm
+          - azure/vnet
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - name: Terraform fmt
+        run: terraform fmt -check -recursive ${{ matrix.module }}
+      - name: Terraform init
+        working-directory: ${{ matrix.module }}
+        run: terraform init -backend=false
+      - name: Terraform validate
+        working-directory: ${{ matrix.module }}
+        run: terraform validate
