@@ -1,112 +1,177 @@
 # Terraform Modules Repository
 
-Shared, reusable Terraform modules for AWS and Azure resources spanning compute, storage, networking, Kubernetes, and big data infrastructure.
+Shared, reusable Terraform root modules for AWS and Azure resources.
+
+**This repository contains cloud provider root modules ONLY.**
+**App-specific wrappers, environments, and configurations belong in application repositories.**
 
 ## Directory Structure
 
 ```
 terraform-modules/
-├── modules/                    # Reusable module definitions
-│   ├── aws/
-│   │   ├── compute/           # EC2, ASG, Lambda
-│   │   ├── storage/           # S3, RDS, DynamoDB
-│   │   ├── networking/        # VPC, ALB, Route53
-│   │   ├── kubernetes/        # EKS
-│   │   └── bigdata/           # EMR, Glue, Redshift
-│   ├── azure/
-│   │   ├── compute/           # VMs, AKS
-│   │   ├── storage/           # Blob, SQL, CosmosDB
-│   │   ├── networking/        # VNets, Load Balancers
-│   │   ├── kubernetes/        # AKS
-│   │   └── bigdata/           # Databricks, Synapse
-│   └── common/
-│       ├── monitoring/
-│       └── security/
-│
-├── wrappers/                   # Environment-specific wrapper configurations
-│   ├── dev/
-│   │   ├── terraform.tfvars    # Dev environment values
-│   │   ├── variables.tf        # Dev variable definitions
-│   │   ├── main.tf             # Dev main configuration
-│   │   ├── outputs.tf          # Dev outputs
-│   │   └── backend.tf          # Dev backend state
-│   ├── test/
-│   │   ├── terraform.tfvars
-│   │   ├── variables.tf
+├── aws/
+│   ├── compute/                   # EC2, ASG, Lambda modules
 │   │   ├── main.tf
-│   │   ├── outputs.tf
-│   │   └── backend.tf
-│   ├── prod/
-│   │   ├── terraform.tfvars
 │   │   ├── variables.tf
-│   │   ├── main.tf
 │   │   ├── outputs.tf
-│   │   └── backend.tf
-│   └── shared/                 # Shared wrapper code
-│       └── variables.tf
-│
-├── examples/                   # Example usage patterns
-│   ├── aws-complete-stack/
-│   ├── azure-complete-stack/
-│   └── multi-cloud-deployment/
-│
-├── docs/                       # Documentation
-│   ├── MODULE_USAGE.md
-│   ├── CONTRIBUTING.md
-│   └── EXAMPLES.md
-│
-└── .github/
-    └── workflows/
-        ├── validate.yml        # Validate Terraform configs
-        └── test.yml            # Test modules
+│   │   ├── providers.tf
+│   │   └── README.md
+│   ├── storage/                   # S3, RDS, DynamoDB modules
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   └── README.md
+│   ├── networking/                # VPC, ALB, Route53, Security Groups
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   └── README.md
+│   ├── kubernetes/                # EKS cluster and related
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   └── README.md
+│   └── bigdata/                   # EMR, Glue, Redshift, Athena
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── outputs.tf
+│       ├── providers.tf
+│       └── README.md
+├── azure/
+│   ├── compute/                   # VMs, VMSS, App Service modules
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   └── README.md
+│   ├── storage/                   # Blob, SQL, CosmosDB modules
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   └── README.md
+│   ├── networking/                # VNets, NSGs, Load Balancers
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   └── README.md
+│   ├── kubernetes/                # AKS cluster and related
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   └── README.md
+│   └── bigdata/                   # Databricks, Synapse, HDInsight
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── outputs.tf
+│       ├── providers.tf
+│       └── README.md
+├── docs/
+│   ├── MODULE_USAGE.md            # How to consume these modules
+│   ├── MODULE_DEVELOPMENT.md      # How to develop new modules
+│   ├── AWS_MODULES.md             # AWS module catalog
+│   ├── AZURE_MODULES.md           # Azure module catalog
+│   └── CONTRIBUTING.md
+├── .github/
+│   └── workflows/
+│       ├── validate-modules.yml   # Validate Terraform syntax
+│       └── test-modules.yml       # Test modules
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
-## Usage
+## Module Structure
 
-### For App Repositories
+Each module directory contains:
 
-Your app repos (finsight-ai-platform, pawpal-pet-wellness) will have:
+### main.tf
+Resource definitions and module composition
+
+### variables.tf
+Input variable definitions with validation rules
+
+### outputs.tf
+Output values to be consumed by wrapper configs
+
+### providers.tf
+Provider requirements and configuration
+
+### README.md
+Module documentation with examples
+
+## Usage Example
+
+In your **application repository** (`finsight-ai-platform/terraform/wrappers/dev/main.tf`):
 
 ```hcl
-# terraform/wrappers/dev/main.tf
-module "vm" {
-  source = "git::https://github.com/raja1417/terraform-modules.git//modules/aws/compute/vm?ref=v1.0.0"
+module "vpc" {
+  source = "git::https://github.com/raja1417/terraform-modules.git//aws/networking?ref=v1.0.0"
+
+  project_name = var.project_name
+  environment  = var.environment
+  cidr_block   = "10.0.0.0/16"
   
-  environment = var.environment
-  instance_type = var.instance_type
-  # ... other variables
+  tags = var.tags
+}
+
+module "eks" {
+  source = "git::https://github.com/raja1417/terraform-modules.git//aws/kubernetes?ref=v1.0.0"
+
+  cluster_name       = "${var.project_name}-${var.environment}-eks"
+  kubernetes_version = "1.27"
+  vpc_id             = module.vpc.vpc_id
+  subnet_ids         = module.vpc.private_subnet_ids
+  
+  tags = var.tags
 }
 ```
 
-### Environment Structure
-
-Each environment (dev/test/prod) has:
-- **variables.tf** - Environment-specific variable definitions
-- **terraform.tfvars** - Environment-specific values (auto-loaded)
-- **main.tf** - Module instantiations using `source` references
-- **outputs.tf** - Environment outputs
-- **backend.tf** - State backend configuration per environment
-
 ## Versioning
 
-Use git tags for module versions:
+Use git tags to version modules:
+
 ```bash
 git tag -a v1.0.0 -m "Release v1.0.0"
 git push origin v1.0.0
 ```
 
-Reference specific versions in your wrapper configs:
+Always reference specific versions in your wrapper configs:
+
 ```hcl
-source = "git::https://github.com/raja1417/terraform-modules.git//modules/aws/compute?ref=v1.0.0"
+source = "git::https://github.com/raja1417/terraform-modules.git//aws/networking?ref=v1.0.0"
 ```
+
+## Module Development
+
+See [MODULE_DEVELOPMENT.md](docs/MODULE_DEVELOPMENT.md) for guidelines on:
+- Creating new modules
+- Variable naming conventions
+- Output standards
+- Testing modules
+- Documentation requirements
+
+## Module Catalog
+
+- [AWS Modules](docs/AWS_MODULES.md)
+- [Azure Modules](docs/AZURE_MODULES.md)
 
 ## Getting Started
 
-1. Review examples in `examples/`
-2. Check `docs/MODULE_USAGE.md` for detailed module documentation
-3. Use wrapper templates from `wrappers/` as starting points
-4. Reference modules with git source and version tags
+1. Review module catalog in `docs/`
+2. Check individual module READMEs for usage examples
+3. Reference modules in your app repo wrappers using git source with version tags
+4. Keep wrappers and environments in app-specific repositories
 
 ## Contributing
 
 See [CONTRIBUTING.md](docs/CONTRIBUTING.md)
+
+## License
+
+MIT
