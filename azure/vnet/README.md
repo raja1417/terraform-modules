@@ -14,7 +14,13 @@ Creates a virtual network with subnets, delegations, service endpoints, route ta
 ## Usage
 
 ```hcl
-module "vnet" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/vnet?ref=v1.0.0" name = "platform-prod" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location address_space = ["10.10.0.0/16"] }
+module "vnet" {
+  source              = "git::https://github.com/raja1417/terraform-modules.git//azure/vnet?ref=v1.0.0"
+  name                = "platform-prod"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  address_space       = ["10.10.0.0/16"]
+}
 ```
 
 ## Notes

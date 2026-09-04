@@ -14,7 +14,12 @@ Creates a secure storage account with containers, versioning, encryption, networ
 ## Usage
 
 ```hcl
-module "blob" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/blob-storage?ref=v1.0.0" name = "platformprodlogs" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location }
+module "blob" {
+  source              = "git::https://github.com/raja1417/terraform-modules.git//azure/blob-storage?ref=v1.0.0"
+  name                = "platformprodlogs"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+}
 ```
 
 ## Notes

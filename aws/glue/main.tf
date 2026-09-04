@@ -4,18 +4,18 @@ resource "aws_glue_security_configuration" "this" {
 
   encryption_configuration {
     s3_encryption {
-      s3_encryption_mode = "SSE-KMS"
+      s3_encryption_mode = try(var.security_configuration.kms_key_arn, null) == null ? "SSE-S3" : "SSE-KMS"
       kms_key_arn        = try(var.security_configuration.kms_key_arn, null)
     }
 
 
     cloudwatch_encryption {
-      cloudwatch_encryption_mode = "SSE-KMS"
+      cloudwatch_encryption_mode = try(var.security_configuration.cloudwatch_kms_key_arn, null) == null ? "DISABLED" : "SSE-KMS"
       kms_key_arn                = try(var.security_configuration.cloudwatch_kms_key_arn, null)
     }
 
     job_bookmarks_encryption {
-      job_bookmarks_encryption_mode = "CSE-KMS"
+      job_bookmarks_encryption_mode = try(var.security_configuration.kms_key_arn, null) == null ? "DISABLED" : "CSE-KMS"
       kms_key_arn                   = try(var.security_configuration.kms_key_arn, null)
     }
   }

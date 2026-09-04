@@ -14,7 +14,13 @@ Creates an encrypted Redshift cluster with subnet groups, parameter groups, logg
 ## Usage
 
 ```hcl
-module "redshift" { source = "git::https://github.com/raja1417/terraform-modules.git//aws/redshift?ref=v1.0.0" name = "warehouse" database_name = "analytics" master_username = "admin" master_password = var.redshift_password }
+module "redshift" {
+  source          = "git::https://github.com/raja1417/terraform-modules.git//aws/redshift?ref=v1.0.0"
+  name            = "warehouse"
+  database_name   = "analytics"
+  master_username = "admin"
+  master_password = var.redshift_password
+}
 ```
 
 ## Notes

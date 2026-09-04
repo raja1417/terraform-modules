@@ -14,7 +14,14 @@ Creates a Linux virtual machine with managed OS/data disks, NIC, SSH-only access
 ## Usage
 
 ```hcl
-module "vm" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/vm?ref=v1.0.0" name = "app-01" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location subnet_id = module.vnet.subnet_ids["app"] admin_ssh_public_key = var.ssh_key }
+module "vm" {
+  source               = "git::https://github.com/raja1417/terraform-modules.git//azure/vm?ref=v1.0.0"
+  name                 = "app-01"
+  resource_group_name  = azurerm_resource_group.rg.name
+  location             = azurerm_resource_group.rg.location
+  subnet_id            = module.vnet.subnet_ids["app"]
+  admin_ssh_public_key = var.ssh_key
+}
 ```
 
 ## Notes

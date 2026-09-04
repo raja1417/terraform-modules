@@ -36,7 +36,7 @@ resource "aws_dynamodb_table" "this" {
       hash_key           = global_secondary_index.value.hash_key
       range_key          = try(global_secondary_index.value.range_key, null)
       projection_type    = global_secondary_index.value.projection_type
-      non_key_attributes = global_secondary_index.value.non_key_attributes
+      non_key_attributes = global_secondary_index.value.projection_type == "INCLUDE" ? global_secondary_index.value.non_key_attributes : null
       read_capacity      = var.billing_mode == "PROVISIONED" ? try(global_secondary_index.value.read_capacity, null) : null
       write_capacity     = var.billing_mode == "PROVISIONED" ? try(global_secondary_index.value.write_capacity, null) : null
     }

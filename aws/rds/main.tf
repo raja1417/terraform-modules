@@ -33,7 +33,7 @@ resource "aws_db_instance" "this" {
   monitoring_interval                 = var.monitoring_interval
   monitoring_role_arn                 = var.monitoring_role_arn
   performance_insights_enabled        = var.performance_insights_enabled
-  performance_insights_kms_key_id     = var.kms_key_id
+  performance_insights_kms_key_id     = coalesce(var.performance_insights_kms_key_id, var.kms_key_id)
   enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
   iam_database_authentication_enabled = true
   auto_minor_version_upgrade          = true

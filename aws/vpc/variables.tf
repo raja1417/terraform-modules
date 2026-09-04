@@ -49,6 +49,12 @@ variable "single_nat_gateway" {
 }
 
 
+variable "private_subnet_nat_gateway_keys" {
+  description = "Optional map of private subnet keys to public subnet keys that host NAT gateways. Used when create_nat_gateway is true and single_nat_gateway is false."
+  type        = map(string)
+  default     = {}
+}
+
 variable "tags" {
   type    = map(string)
   default = {}

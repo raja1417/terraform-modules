@@ -14,7 +14,15 @@ Creates Azure SQL server/database with AAD-ready identity, retention policies, f
 ## Usage
 
 ```hcl
-module "sql" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/sql-db?ref=v1.0.0" server_name = "orders-sql-prod" name = "orders" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location administrator_login = var.sql_admin administrator_password = var.sql_password }
+module "sql" {
+  source                 = "git::https://github.com/raja1417/terraform-modules.git//azure/sql-db?ref=v1.0.0"
+  server_name            = "orders-sql-prod"
+  name                   = "orders"
+  resource_group_name    = azurerm_resource_group.rg.name
+  location               = azurerm_resource_group.rg.location
+  administrator_login    = var.sql_admin
+  administrator_password = var.sql_password
+}
 ```
 
 ## Notes

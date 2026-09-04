@@ -14,7 +14,14 @@ Creates Glue catalog databases, security configuration, crawlers, and jobs with 
 ## Usage
 
 ```hcl
-module "glue" { source = "git::https://github.com/raja1417/terraform-modules.git//aws/glue?ref=v1.0.0" name = "analytics" catalog_databases = { raw = {} } }
+module "glue" {
+  source = "git::https://github.com/raja1417/terraform-modules.git//aws/glue?ref=v1.0.0"
+  name   = "analytics"
+
+  catalog_databases = {
+    raw = {}
+  }
+}
 ```
 
 ## Notes

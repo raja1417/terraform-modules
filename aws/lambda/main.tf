@@ -47,6 +47,11 @@ resource "aws_lambda_function" "this" {
 
   lifecycle {
     create_before_destroy = true
+
+    precondition {
+      condition     = (var.filename != null) != (var.s3_bucket != null && var.s3_key != null)
+      error_message = "Provide exactly one Lambda package source: filename or s3_bucket with s3_key."
+    }
   }
 }
 

@@ -23,4 +23,7 @@ module "artifacts" {
 
 ## Notes
 
+This module does not hardcode `prevent_destroy` so `force_destroy` remains usable for ephemeral buckets. Add destroy protection in the consuming wrapper or policy controls when required.
+
+
 Keep backend configuration, provider aliases, environment values, and application-specific wrappers in the consuming application repository. Reference this module using `//aws/s3` with a pinned tag or commit SHA.

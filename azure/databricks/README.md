@@ -14,7 +14,12 @@ Creates a Databricks workspace with secure networking options, managed resource 
 ## Usage
 
 ```hcl
-module "databricks" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/databricks?ref=v1.0.0" name = "analytics-dbx" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location }
+module "databricks" {
+  source              = "git::https://github.com/raja1417/terraform-modules.git//azure/databricks?ref=v1.0.0"
+  name                = "analytics-dbx"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+}
 ```
 
 ## Notes

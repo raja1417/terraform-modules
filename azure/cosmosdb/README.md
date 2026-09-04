@@ -14,7 +14,12 @@ Creates a Cosmos DB account with SQL databases/containers, backup, consistency, 
 ## Usage
 
 ```hcl
-module "cosmos" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/cosmosdb?ref=v1.0.0" name = "orders-cosmos" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location }
+module "cosmos" {
+  source              = "git::https://github.com/raja1417/terraform-modules.git//azure/cosmosdb?ref=v1.0.0"
+  name                = "orders-cosmos"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+}
 ```
 
 ## Notes

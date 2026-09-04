@@ -14,7 +14,13 @@ Creates an AKS cluster with system/user node pools, managed identity, monitoring
 ## Usage
 
 ```hcl
-module "aks" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/aks?ref=v1.0.0" name = "platform-prod" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location dns_prefix = "platform-prod" }
+module "aks" {
+  source              = "git::https://github.com/raja1417/terraform-modules.git//azure/aks?ref=v1.0.0"
+  name                = "platform-prod"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  dns_prefix          = "platform-prod"
+}
 ```
 
 ## Notes

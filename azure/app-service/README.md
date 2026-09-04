@@ -14,7 +14,12 @@ Creates an App Service plan, Linux web app, deployment slots, identity, logs, ap
 ## Usage
 
 ```hcl
-module "app" { source = "git::https://github.com/raja1417/terraform-modules.git//azure/app-service?ref=v1.0.0" name = "orders-api" resource_group_name = azurerm_resource_group.rg.name location = azurerm_resource_group.rg.location }
+module "app" {
+  source              = "git::https://github.com/raja1417/terraform-modules.git//azure/app-service?ref=v1.0.0"
+  name                = "orders-api"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+}
 ```
 
 ## Notes

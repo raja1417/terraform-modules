@@ -134,6 +134,12 @@ variable "performance_insights_enabled" {
 }
 
 
+variable "performance_insights_kms_key_id" {
+  description = "Optional KMS key ID for Performance Insights. Defaults to kms_key_id when omitted."
+  type        = string
+  default     = null
+}
+
 variable "enabled_cloudwatch_logs_exports" {
   type    = list(string)
   default = []

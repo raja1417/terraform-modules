@@ -2,10 +2,6 @@ resource "aws_s3_bucket" "this" {
   bucket        = var.name
   force_destroy = var.force_destroy
   tags          = local.common_tags
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 

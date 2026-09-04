@@ -14,7 +14,13 @@ Creates an EMR cluster with managed scaling, bootstrap actions, steps, logging, 
 ## Usage
 
 ```hcl
-module "emr" { source = "git::https://github.com/raja1417/terraform-modules.git//aws/emr?ref=v1.0.0" name = "analytics" service_role = aws_iam_role.emr.arn job_flow_role = aws_iam_instance_profile.emr.arn subnet_id = module.vpc.private_subnet_ids[0] }
+module "emr" {
+  source        = "git::https://github.com/raja1417/terraform-modules.git//aws/emr?ref=v1.0.0"
+  name          = "analytics"
+  service_role  = aws_iam_role.emr.arn
+  job_flow_role = aws_iam_instance_profile.emr.arn
+  subnet_id     = module.vpc.private_subnet_ids[0]
+}
 ```
 
 ## Notes
